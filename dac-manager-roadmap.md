@@ -126,7 +126,40 @@
   - Create, view, delete, add/remove tracks
 
 ### Validation Criteria
-> Create playlist → search tracks → add → reorder via drag-and-drop → save → playlist persists correctly
+> Create playlist → search tracks → add → reorder via drag-and-drop → save → playlist persists correctly ✅
+
+---
+
+## Completed Phases Summary
+
+### Phase 1 ✅ Docker + Laravel Foundation
+- Docker Compose with 3 services (app, worker, reverb)
+- PHP 8.4 with SQLite, authentication via Fortify
+- Volume mounts for music library and SD card
+
+### Phase 2 ✅ Database Modeling
+- 6 tables: albums, tracks, playlists, playlist_tracks, card_states, sync_logs
+- Complete ORM relationships with Laravel 13 PHP Attributes
+- Factories and seeders for all models
+
+### Phase 3 ✅ Library Scanner
+- MetadataReader service using getid3 (ID3, FLAC, WAV, AAC, OGG, WMA, Opus)
+- LibraryScanner service for recursive library scanning
+- ScanLibrary Job with real FLAC test fixtures
+- Integration tests with real audio files
+
+### Phase 4 ✅ Library UI
+- Library/Index.vue: album grid with search and pagination
+- Library/Show.vue: album details with track list
+- Reused existing Button, Input, Dialog, Card components
+- Feature tests for all library routes
+
+### Phase 5 ✅ Playlist Management
+- Playlists/Index.vue: create/list/delete playlists
+- Playlists/Show.vue: manage tracks in playlists
+- Form Request validation (StorePlaylistRequest, AddTrackToPlaylistRequest)
+- Full CRUD with add/remove/reorder tracks
+- Feature tests for all playlist operations
 
 ---
 
