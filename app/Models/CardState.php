@@ -12,5 +12,8 @@ class CardState extends Model
 
     protected $fillable = ['type', 'reference_id', 'folder_name', 'synced_at'];
 
-    protected $casts = ['synced_at' => 'datetime'];
+    protected $casts = [
+        'reference_id' => 'integer',
+        'synced_at' => 'datetime',
+    ];
 }

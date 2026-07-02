@@ -9,4 +9,10 @@ class PlaylistTrack extends Model
 {
     /** @use HasFactory<\Database\Factories\PlaylistTrackFactory> */
     use HasFactory;
+
+    protected $fillable = ['playlist_id', 'track_id', 'position'];
+
+    protected $casts = [
+        'position' => 'integer',
+    ];
 }

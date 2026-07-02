@@ -13,6 +13,10 @@ class Album extends Model
 
     protected $fillable = ['artist', 'title', 'year', 'cover_path', 'folder_path'];
 
+    protected $casts = [
+        'year' => 'integer',
+    ];
+
     public function tracks(): HasMany
     {
         return $this->hasMany(Track::class);

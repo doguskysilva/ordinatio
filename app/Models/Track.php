@@ -14,6 +14,12 @@ class Track extends Model
 
     protected $fillable = ['album_id', 'title', 'track_number', 'duration', 'file_path', 'format', 'bitrate'];
 
+    protected $casts = [
+        'track_number' => 'integer',
+        'duration' => 'integer',
+        'bitrate' => 'integer',
+    ];
+
     public function album(): BelongsTo
     {
         return $this->belongsTo(Album::class);

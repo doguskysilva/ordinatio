@@ -17,4 +17,24 @@ class SyncLog extends Model
         'finished_at' => 'datetime',
         'summary' => 'array',
     ];
+
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isRunning(): bool
+    {
+        return $this->status === 'running';
+    }
+
+    public function isCompleted(): bool
+    {
+        return $this->status === 'completed';
+    }
+
+    public function isFailed(): bool
+    {
+        return $this->status === 'failed';
+    }
 }
