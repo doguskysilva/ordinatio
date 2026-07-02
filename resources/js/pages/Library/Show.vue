@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import { Link, useForm } from '@inertiajs/vue3'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Album, Track } from '@/types'
@@ -8,7 +9,22 @@ interface Props {
   album: Album & { tracks: Track[] }
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const addToCardForm = useForm({})
+const isAddingToCard = ref(false)
+
+const handleAddToCard = () => {
+  isAddingToCard.value = true
+  addToCardForm.post(`/library/${props.album.id}/add-to-card`, {
+    onSuccess: () => {
+      isAddingToCard.value = false
+    },
+    onError: () => {
+      isAddingToCard.value = false
+    },
+  })
+}
 
 const formatDuration = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
@@ -67,11 +83,14 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
             </div>
           </div>
 
-          <Button class="mt-6 w-fit">
-            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <Button @click="handleAddToCard" :disabled="isAddingToCard" class="mt-6 w-fit">
+            <svg v-if="isAddingToCard" class="mr-2 h-4 w-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
-            Add to SD Card
+            <svg v-else class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            {{ isAddingToCard ? 'Adding to Card...' : 'Add to SD Card' }}
           </Button>
         </CardContent>
       </div>

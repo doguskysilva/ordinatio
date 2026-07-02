@@ -15,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('library', 'index')->name('library.index');
         Route::get('library/{album}', 'show')->name('library.show');
         Route::post('library/scan', 'scan')->name('library.scan');
+        Route::post('library/{album}/add-to-card', 'addToCard')->name('library.add-to-card');
     });
 
     Route::controller(PlaylistController::class)->group(function () {
