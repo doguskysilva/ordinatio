@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { Link, useForm } from '@inertiajs/vue3'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
@@ -22,6 +24,21 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const syncForm = useForm({})
+const isSyncing = ref(false)
+
+const handleSync = () => {
+  isSyncing.value = true
+  syncForm.post('/sync', {
+    onSuccess: () => {
+      isSyncing.value = false
+    },
+    onError: () => {
+      isSyncing.value = false
+    },
+  })
+}
 
 const formatSize = (bytes: number): string => {
   const units = ['B', 'KB', 'MB', 'GB']
@@ -49,11 +66,14 @@ const getStatusColor = (status: 'synced' | 'missing' | 'extra') => {
   <div class="space-y-6 p-6">
     <div class="flex items-center justify-between">
       <h1 class="text-3xl font-bold">SD Card State</h1>
-      <Button>
-        <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <Button @click="handleSync" :disabled="isSyncing">
+        <svg v-if="isSyncing" class="mr-2 h-4 w-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
-        Sync to Card
+        <svg v-else class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        {{ isSyncing ? 'Syncing...' : 'Sync to Card' }}
       </Button>
     </div>
 

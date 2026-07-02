@@ -3,6 +3,7 @@
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\SyncController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('home');
@@ -27,6 +28,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::get('card', [CardController::class, 'index'])->name('card.index');
+
+    Route::post('sync', [SyncController::class, 'store'])->name('sync.store');
+    Route::get('sync/{syncLog}', [SyncController::class, 'show'])->name('sync.show');
 });
 
 require __DIR__.'/settings.php';
