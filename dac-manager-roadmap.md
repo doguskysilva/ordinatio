@@ -161,6 +161,16 @@
 - Full CRUD with add/remove/reorder tracks
 - Feature tests for all playlist operations
 
+### Phase 6 ✅ SD Card State
+- CardReader service reads /tmp/sdcard structure
+- Albums/ and Playlists/ directory scanning
+- Storage usage calculation
+- CardController with index and diff actions
+- Card/Index.vue displays card state with sync status
+- Shows missing/extra items compared to database
+- Navigation added (HardDrive icon in sidebar)
+- 5 feature tests for card operations
+
 ---
 
 ## Phase 6 — SD Card State
