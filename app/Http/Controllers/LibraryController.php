@@ -11,13 +11,22 @@ class LibraryController extends Controller
 {
     public function index(): Response
     {
-        $albums = Album::with('tracks')
+        $albums = Album::withCount('tracks')
             ->orderBy('artist')
             ->orderBy('title')
             ->paginate(20);
 
         return Inertia::render('Library/Index', [
             'albums' => $albums,
+        ]);
+    }
+
+    public function show(Album $album): Response
+    {
+        $album->load('tracks');
+
+        return Inertia::render('Library/Show', [
+            'album' => $album,
         ]);
     }
 

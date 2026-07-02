@@ -10,6 +10,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(LibraryController::class)->group(function () {
         Route::get('library', 'index')->name('library.index');
+        Route::get('library/{album}', 'show')->name('library.show');
         Route::post('library/scan', 'scan')->name('library.scan');
     });
 });

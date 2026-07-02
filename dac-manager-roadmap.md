@@ -87,16 +87,16 @@
 
 ### Checklist
 
-- [ ] Page `Library/Index.vue`:
+- [x] Page `Library/Index.vue`:
   - Album grid with cover art, artist and title
   - Search field (filters by artist or album)
   - "Scan library" button with real-time progress feedback via Reverb
-- [ ] Page `Library/Show.vue` (album detail):
+- [x] Page `Library/Show.vue` (album detail):
   - Large cover art, metadata
   - Track list in order with duration
   - "Add to SD card" button
-- [ ] Real-time scan progress indicator (WebSocket)
-- [ ] Feature tests for controllers (LibraryController)
+- [x] Real-time scan progress indicator (WebSocket)
+- [x] Feature tests for controllers (LibraryController)
 
 ### Validation Criteria
 > Library displays all scanned albums → clicking an album shows its tracks → search filters correctly
