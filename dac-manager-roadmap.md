@@ -58,23 +58,23 @@
 
 ### Checklist
 
-- [ ] Install `james-heinrich/getid3` via Composer
-- [ ] Create `MetadataReader` service:
+- [x] Install `james-heinrich/getid3` via Composer
+- [x] Create `MetadataReader` service:
   - Reads ID3/FLAC/etc tags from a file
   - Returns normalized struct: `title`, `artist`, `album`, `year`, `track_number`, `duration`, `format`, `bitrate`
-- [ ] Create `LibraryScanner` service:
+- [x] Create `LibraryScanner` service:
   - Recursively scans `/var/music`
   - Detects `Artist/Album/tracks` folder structure
   - Extracts cover art when available
-- [ ] Create `ScanLibrary` Job:
+- [x] Create `ScanLibrary` Job:
   - Uses `LibraryScanner` to find albums and tracks
   - Upserts into database (no duplicates on re-scan)
   - Emits progress events via Reverb
-- [ ] Create `LibraryController`:
+- [x] Create `LibraryController`:
   - `index()` → Inertia render of library page
   - `scan()` → dispatches `ScanLibrary` job
-- [ ] Unit tests for `MetadataReader` and `LibraryScanner` (with audio file fixtures)
-- [ ] Integration tests for `ScanLibrary` job
+- [x] Unit tests for `MetadataReader` and `LibraryScanner` (with audio file fixtures)
+- [x] Integration tests for `ScanLibrary` job
 
 ### Validation Criteria
 > Click "Scan library" in UI → job runs → albums and tracks appear in database → library page lists albums correctly
