@@ -112,11 +112,11 @@ const getStatusColor = (status: 'synced' | 'missing' | 'extra') => {
         <div v-if="card.albums.length === 0" class="text-center py-8 text-gray-500">
           No albums on card. Start a sync to add albums.
         </div>
-        <div v-else class="space-y-2">
+        <div v-else class="divide-y">
           <div
             v-for="album in card.albums"
             :key="album.name"
-            class="flex items-center justify-between p-3 rounded-lg bg-gray-50"
+            class="flex items-center justify-between px-3 py-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-sidebar-accent dark:hover:text-sidebar-accent-foreground transition"
           >
             <div>
               <p class="font-semibold">{{ album.name }}</p>
@@ -139,11 +139,11 @@ const getStatusColor = (status: 'synced' | 'missing' | 'extra') => {
         <div v-if="card.playlists.length === 0" class="text-center py-8 text-gray-500">
           No playlists on card. Start a sync to add playlists.
         </div>
-        <div v-else class="space-y-2">
+        <div v-else class="divide-y">
           <div
             v-for="playlist in card.playlists"
             :key="playlist.name"
-            class="flex items-center justify-between p-3 rounded-lg bg-gray-50"
+            class="flex items-center justify-between px-3 py-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-sidebar-accent dark:hover:text-sidebar-accent-foreground transition"
           >
             <div>
               <p class="font-semibold">{{ playlist.name }}</p>

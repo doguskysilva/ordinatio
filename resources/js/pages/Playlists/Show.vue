@@ -116,9 +116,9 @@ const formatDuration = (seconds: number): string => {
                   type="button"
                   @click="selectedTrackId = track.id"
                   :class="[
-                    'w-full text-left p-3 transition flex items-center gap-3',
-                    'hover:bg-gray-100 dark:hover:bg-gray-700',
-                    selectedTrackId === track.id ? 'bg-blue-100 dark:bg-blue-900' : ''
+                    'w-full text-left px-3 py-4 transition flex items-center gap-3 border-b',
+                    'hover:bg-accent hover:text-accent-foreground dark:hover:bg-sidebar-accent dark:hover:text-sidebar-accent-foreground',
+                    selectedTrackId === track.id ? 'bg-accent text-accent-foreground dark:bg-sidebar-accent dark:text-sidebar-accent-foreground' : ''
                   ]"
                 >
                   <input
@@ -161,11 +161,11 @@ const formatDuration = (seconds: number): string => {
           No tracks in this playlist yet. Add some to get started!
         </div>
 
-        <div v-else class="space-y-2">
+        <div v-else class="divide-y">
           <div
             v-for="(track, index) in playlist.tracks"
             :key="track.id"
-            class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition"
+            class="flex items-center gap-4 px-3 py-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-sidebar-accent dark:hover:text-sidebar-accent-foreground transition"
           >
             <span class="text-gray-400 font-semibold w-8 text-right">
               {{ index + 1 }}

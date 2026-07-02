@@ -109,7 +109,7 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
           <div
             v-for="(track, index) in album.tracks"
             :key="track.id"
-            class="px-6 py-4 hover:bg-gray-50 transition flex items-center gap-4"
+            class="px-6 py-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-sidebar-accent dark:hover:text-sidebar-accent-foreground transition flex items-center gap-4"
           >
             <span class="text-gray-400 font-semibold w-8 text-right">
               {{ track.track_number || index + 1 }}
