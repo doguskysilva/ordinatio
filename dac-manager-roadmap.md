@@ -34,18 +34,18 @@
 
 ### Checklist
 
-- [ ] Migration `albums`: `id`, `artist`, `title`, `year`, `cover_path`, `folder_path`, `created_at`, `updated_at`
-- [ ] Migration `tracks`: `id`, `album_id`, `title`, `track_number`, `duration`, `file_path`, `format`, `bitrate`
-- [ ] Migration `playlists`: `id`, `name`, `created_at`, `updated_at`
-- [ ] Migration `playlist_tracks`: `id`, `playlist_id`, `track_id`, `position`
-- [ ] Migration `card_states`: `id`, `type` (album|playlist), `reference_id`, `folder_name`, `synced_at`
-- [ ] Migration `sync_logs`: `id`, `status`, `started_at`, `finished_at`, `summary` (json)
-- [ ] Models with relationships:
+- [x] Migration `albums`: `id`, `artist`, `title`, `year`, `cover_path`, `folder_path`, `created_at`, `updated_at`
+- [x] Migration `tracks`: `id`, `album_id`, `title`, `track_number`, `duration`, `file_path`, `format`, `bitrate`
+- [x] Migration `playlists`: `id`, `name`, `created_at`, `updated_at`
+- [x] Migration `playlist_tracks`: `id`, `playlist_id`, `track_id`, `position`
+- [x] Migration `card_states`: `id`, `type` (album|playlist), `reference_id`, `folder_name`, `synced_at`
+- [x] Migration `sync_logs`: `id`, `status`, `started_at`, `finished_at`, `summary` (json)
+- [x] Models with relationships:
   - `Album` hasMany `Track`
   - `Playlist` belongsToMany `Track` via `playlist_tracks` (with `position`)
   - `SyncLog` hasMany `CardState`
-- [ ] Factories for all models
-- [ ] Unit tests for relationships and factories
+- [x] Factories for all models
+- [x] Unit tests for relationships and factories
 
 ### Validation Criteria
 > `php artisan migrate` with no errors + all model unit tests passing with 100% coverage
