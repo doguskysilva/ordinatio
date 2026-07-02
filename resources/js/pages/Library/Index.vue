@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Link } from '@inertiajs/vue3'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Album } from '@/types'
 
 interface Props {
@@ -37,24 +40,22 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
       <Link
         href="/library/scan"
         method="post"
-        class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        as-child
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-        </svg>
-        Scan Library
+        <Button>
+          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Scan Library
+        </Button>
       </Link>
     </div>
 
-    <div class="relative">
-      <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-      <input
+    <div>
+      <Input
         v-model="searchQuery"
         type="text"
         placeholder="Search by artist or album..."
-        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       />
     </div>
 
@@ -67,9 +68,9 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
         v-for="album in filteredAlbums"
         :key="album.id"
         :href="`/library/${album.id}`"
-        class="group cursor-pointer"
+        class="no-underline"
       >
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+        <Card class="h-full hover:shadow-lg transition cursor-pointer">
           <div class="aspect-square bg-gray-200 overflow-hidden">
             <img
               :src="album.cover_path || placeholderCover"
@@ -77,12 +78,12 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
               class="w-full h-full object-cover group-hover:scale-105 transition"
             />
           </div>
-          <div class="p-3">
-            <h3 class="font-semibold text-sm line-clamp-2">{{ album.title }}</h3>
-            <p class="text-xs text-gray-600 line-clamp-1">{{ album.artist }}</p>
+          <CardContent class="p-3">
+            <CardTitle class="text-sm line-clamp-2">{{ album.title }}</CardTitle>
+            <CardDescription class="text-xs line-clamp-1">{{ album.artist }}</CardDescription>
             <p class="text-xs text-gray-500 mt-1">{{ album.tracks_count || 0 }} tracks</p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </Link>
     </div>
 
@@ -91,18 +92,23 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
         <Link
           v-if="link.url"
           :href="link.url"
-          :class="[
-            'px-3 py-1 rounded border',
-            link.active
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'border-gray-300 hover:border-gray-400'
-          ]"
+          as-child
+        >
+          <Button
+            :variant="link.active ? 'default' : 'outline'"
+            size="sm"
+          >
+            {{ link.label }}
+          </Button>
+        </Link>
+        <Button
+          v-else
+          :variant="link.active ? 'default' : 'outline'"
+          size="sm"
+          disabled
         >
           {{ link.label }}
-        </Link>
-        <span v-else :class="['px-3 py-1 text-gray-400', link.active && 'font-bold']">
-          {{ link.label }}
-        </span>
+        </Button>
       </template>
     </div>
   </div>

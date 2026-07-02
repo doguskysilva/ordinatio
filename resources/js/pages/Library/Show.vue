@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Album, Track } from '@/types'
 
 interface Props {
@@ -19,14 +21,16 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
 
 <template>
   <div class="p-6 max-w-4xl mx-auto">
-    <Link href="/library" class="text-blue-600 hover:text-blue-700 flex items-center gap-1 mb-6">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-      Back to Library
+    <Link href="/library" as-child>
+      <Button variant="ghost" class="mb-6">
+        <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Library
+      </Button>
     </Link>
 
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <Card class="overflow-hidden">
       <div class="md:flex">
         <!-- Cover Art -->
         <div class="md:w-80 flex-shrink-0">
@@ -38,10 +42,10 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
         </div>
 
         <!-- Album Info -->
-        <div class="p-6 flex flex-col justify-between flex-grow">
+        <CardContent class="p-6 flex flex-col justify-between flex-grow">
           <div>
             <p class="text-gray-600 text-lg">{{ album.artist }}</p>
-            <h1 class="text-4xl font-bold mt-2 mb-4">{{ album.title }}</h1>
+            <CardTitle class="text-4xl mt-2 mb-4">{{ album.title }}</CardTitle>
 
             <div class="space-y-2 text-gray-700">
               <p v-if="album.year" class="flex items-center gap-2">
@@ -63,20 +67,20 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
             </div>
           </div>
 
-          <button class="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <Button class="mt-6 w-fit">
+            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
             Add to SD Card
-          </button>
-        </div>
+          </Button>
+        </CardContent>
       </div>
 
       <!-- Track List -->
       <div class="border-t">
-        <div class="px-6 py-4 bg-gray-50 border-b">
-          <h2 class="text-xl font-bold">Tracks</h2>
-        </div>
+        <CardHeader class="bg-gray-50">
+          <CardTitle>Tracks</CardTitle>
+        </CardHeader>
 
         <div v-if="album.tracks.length === 0" class="p-6 text-center text-gray-500">
           No tracks found
@@ -102,6 +106,6 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   </div>
 </template>
