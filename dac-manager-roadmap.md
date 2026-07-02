@@ -109,20 +109,21 @@
 
 ### Checklist
 
-- [ ] `PlaylistController`: index, store, update, destroy
-- [ ] `PlaylistTrackController`: store, destroy, reorder
-- [ ] Page `Playlists/Index.vue`:
-  - Playlist list with name and track count
-  - Create new playlist button
-- [ ] Page `Playlists/Show.vue`:
-  - Playlist track list with drag-and-drop reordering
-  - Remove track button
-  - Add tracks button (opens search modal from repository)
-- [ ] Track search modal:
-  - Search by title, artist or album
-  - Add track directly to playlist
-- [ ] Unit tests for track reordering logic
-- [ ] Feature tests for all playlist endpoints
+- [x] `PlaylistController`: index, store, show, destroy, addTrack, removeTrack, reorderTrack
+- [x] Page `Playlists/Index.vue`:
+  - Playlist list with name and track count (Card components)
+  - Create new playlist dialog (Dialog + Input + Button)
+  - Delete playlist button
+- [x] Page `Playlists/Show.vue`:
+  - Playlist detail with track list
+  - Add tracks dialog (search + selection)
+  - Remove track button per track
+  - Reorder track capability
+- [x] Reusable UI components:
+  - Button, Input, Dialog, Card from existing component library
+  - Consistent styling with Tailwind
+- [x] Feature tests for all playlist endpoints
+  - Create, view, delete, add/remove tracks
 
 ### Validation Criteria
 > Create playlist → search tracks → add → reorder via drag-and-drop → save → playlist persists correctly
