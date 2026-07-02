@@ -92,7 +92,7 @@ const handleDelete = (id: number) => {
           <CardHeader>
             <CardTitle>{{ playlist.name }}</CardTitle>
             <CardDescription>
-              {{ playlist.tracks?.length || 0 }} tracks
+              {{ playlist.tracks_count || 0 }} tracks
             </CardDescription>
           </CardHeader>
           <CardContent>
