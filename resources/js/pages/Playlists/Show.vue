@@ -116,8 +116,9 @@ const formatDuration = (seconds: number): string => {
                   type="button"
                   @click="selectedTrackId = track.id"
                   :class="[
-                    'w-full text-left p-3 hover:bg-gray-50 transition flex items-center gap-3',
-                    selectedTrackId === track.id ? 'bg-blue-50' : ''
+                    'w-full text-left p-3 transition flex items-center gap-3',
+                    'hover:bg-gray-100 dark:hover:bg-gray-700',
+                    selectedTrackId === track.id ? 'bg-blue-100 dark:bg-blue-900' : ''
                   ]"
                 >
                   <input

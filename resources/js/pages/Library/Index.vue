@@ -79,9 +79,9 @@ const placeholderCover = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2
             />
           </div>
           <CardContent class="p-3">
-            <CardTitle class="text-sm line-clamp-2">{{ album.title }}</CardTitle>
-            <CardDescription class="text-xs line-clamp-1">{{ album.artist }}</CardDescription>
-            <p class="text-xs text-gray-500 mt-1">{{ album.tracks_count || 0 }} tracks</p>
+            <CardTitle class="text-sm line-clamp-2 text-foreground">{{ album.title }}</CardTitle>
+            <CardDescription class="text-xs line-clamp-1 text-muted-foreground">{{ album.artist }}</CardDescription>
+            <p class="text-xs text-muted-foreground mt-1">{{ album.tracks_count || 0 }} tracks</p>
           </CardContent>
         </Card>
       </Link>
