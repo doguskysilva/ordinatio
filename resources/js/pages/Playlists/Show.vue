@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Link, useForm } from '@inertiajs/vue3'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,6 +9,7 @@ import type { Playlist, Track } from '@/types'
 
 interface Props {
   playlist: Playlist & { tracks: Track[] }
+  availableTracks: Track[]
 }
 
 const props = defineProps<Props>()
@@ -19,6 +20,19 @@ const selectedTrackId = ref<number | null>(null)
 
 const addTrackForm = useForm({
   track_id: null as number | null,
+})
+
+const playlistTrackIds = computed(() => new Set(props.playlist.tracks.map(t => t.id)))
+
+const filteredTracks = computed(() => {
+  const query = searchQuery.value.toLowerCase()
+
+  return props.availableTracks
+    .filter(track => !playlistTrackIds.value.has(track.id))
+    .filter(track =>
+      track.title.toLowerCase().includes(query) ||
+      track.album?.toLowerCase().includes(query)
+    )
 })
 
 const handleAddTrack = () => {
@@ -39,10 +53,6 @@ const handleRemoveTrack = (trackId: number) => {
   useForm().delete(`/playlists/${props.playlist.id}/tracks/${trackId}`)
 }
 
-const handleReorder = (trackId: number, newPosition: number) => {
-  useForm({ position: newPosition }).patch(`/playlists/${props.playlist.id}/tracks/${trackId}`)
-}
-
 const formatDuration = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
   const secs = seconds % 60
@@ -52,11 +62,13 @@ const formatDuration = (seconds: number): string => {
 
 <template>
   <div class="space-y-6 p-6 max-w-4xl mx-auto">
-    <Link href="/playlists" class="text-blue-600 hover:text-blue-700 flex items-center gap-1 mb-6">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-      Back to Playlists
+    <Link href="/playlists" as-child>
+      <Button variant="ghost" class="mb-6">
+        <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Playlists
+      </Button>
     </Link>
 
     <div class="flex items-center justify-between">
@@ -73,7 +85,7 @@ const formatDuration = (seconds: number): string => {
             Add Tracks
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent class="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Add Tracks to Playlist</DialogTitle>
             <DialogDescription>
@@ -86,15 +98,48 @@ const formatDuration = (seconds: number): string => {
               <Input
                 id="search"
                 v-model="searchQuery"
-                placeholder="Search by title or artist..."
+                placeholder="Search by title or album..."
                 class="mt-1"
               />
             </div>
+
+            <div class="border rounded-lg max-h-96 overflow-y-auto">
+              <div v-if="filteredTracks.length === 0" class="p-4 text-center text-gray-500">
+                <p v-if="props.availableTracks.length === 0">No tracks available</p>
+                <p v-else>No tracks match your search</p>
+              </div>
+
+              <div v-else class="divide-y">
+                <button
+                  v-for="track in filteredTracks"
+                  :key="track.id"
+                  type="button"
+                  @click="selectedTrackId = track.id"
+                  :class="[
+                    'w-full text-left p-3 hover:bg-gray-50 transition flex items-center gap-3',
+                    selectedTrackId === track.id ? 'bg-blue-50' : ''
+                  ]"
+                >
+                  <input
+                    type="radio"
+                    :checked="selectedTrackId === track.id"
+                    :value="track.id"
+                    class="w-4 h-4"
+                  />
+                  <div class="flex-grow">
+                    <p class="font-semibold">{{ track.title }}</p>
+                    <p class="text-sm text-gray-600">{{ track.album }}</p>
+                  </div>
+                  <p class="text-sm text-gray-600">{{ formatDuration(track.duration || 0) }}</p>
+                </button>
+              </div>
+            </div>
+
             <div class="flex justify-end gap-2">
               <Button variant="outline" @click="isAddTracksDialogOpen = false">
                 Cancel
               </Button>
-              <Button :disabled="!selectedTrackId">
+              <Button :disabled="!selectedTrackId || addTrackForm.processing">
                 Add Track
               </Button>
             </div>

@@ -25,9 +25,11 @@ class PlaylistController extends Controller
     public function show(Playlist $playlist): Response
     {
         $playlist->load('tracks');
+        $availableTracks = Track::all();
 
         return Inertia::render('Playlists/Show', [
             'playlist' => $playlist,
+            'availableTracks' => $availableTracks,
         ]);
     }
 
