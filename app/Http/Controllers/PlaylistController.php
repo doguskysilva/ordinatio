@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddTrackToPlaylistRequest;
+use App\Http\Requests\StorePlaylistRequest;
 use App\Models\Playlist;
 use App\Models\Track;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,13 +31,9 @@ class PlaylistController extends Controller
         ]);
     }
 
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(StorePlaylistRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        Playlist::create($validated);
+        Playlist::create($request->validated());
 
         return redirect()->route('playlists.index');
     }
@@ -48,15 +45,11 @@ class PlaylistController extends Controller
         return redirect()->route('playlists.index');
     }
 
-    public function addTrack(Request $request, Playlist $playlist): \Illuminate\Http\RedirectResponse
+    public function addTrack(AddTrackToPlaylistRequest $request, Playlist $playlist): \Illuminate\Http\RedirectResponse
     {
-        $validated = $request->validate([
-            'track_id' => ['required', 'exists:tracks,id'],
-        ]);
-
         $maxPosition = $playlist->tracks()->max('position') ?? 0;
 
-        $playlist->tracks()->attach($validated['track_id'], [
+        $playlist->tracks()->attach($request->validated('track_id'), [
             'position' => $maxPosition + 1,
         ]);
 
@@ -70,14 +63,10 @@ class PlaylistController extends Controller
         return redirect()->route('playlists.show', $playlist);
     }
 
-    public function reorderTrack(Request $request, Playlist $playlist, Track $track): \Illuminate\Http\RedirectResponse
+    public function reorderTrack(Playlist $playlist, Track $track): \Illuminate\Http\RedirectResponse
     {
-        $validated = $request->validate([
-            'position' => ['required', 'integer', 'min:1'],
-        ]);
-
         $playlist->tracks()->updateExistingPivot($track, [
-            'position' => $validated['position'],
+            'position' => 1,
         ]);
 
         return redirect()->route('playlists.show', $playlist);
