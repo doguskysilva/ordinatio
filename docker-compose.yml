@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: ordinatio-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    environment:
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/var/database/app.db
+      - QUEUE_CONNECTION=database
+      - BROADCAST_CONNECTION=reverb
+      - REVERB_HOST=reverb
+      - REVERB_PORT=8080
+      - REVERB_SCHEME=http
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/var/www/html
+      - ~/music:/var/music:ro
+      - /mnt/sdcard:/var/sdcard
+      - ./database:/var/database
+    depends_on:
+      - reverb
+    networks:
+      - dac-network
+    command: >
+      sh -c "php artisan migrate --force &&
+             php artisan serve --host=0.0.0.0 --port=8000"
+
+  worker:
+    build: .
+    container_name: ordinatio-worker
+    restart: unless-stopped
+    working_dir: /var/www/html
+    environment:
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/var/database/app.db
+      - QUEUE_CONNECTION=database
+      - BROADCAST_CONNECTION=reverb
+      - REVERB_HOST=reverb
+      - REVERB_PORT=8080
+      - REVERB_SCHEME=http
+    volumes:
+      - ./:/var/www/html
+      - ~/music:/var/music:ro
+      - /mnt/sdcard:/var/sdcard
+      - ./database:/var/database
+    depends_on:
+      - app
+      - reverb
+    networks:
+      - dac-network
+    command: php artisan queue:work --sleep=3 --tries=3
+
+  reverb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ordinatio-reverb
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - dac-network
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080
+
+networks:
+  dac-network:
+    driver: bridge
