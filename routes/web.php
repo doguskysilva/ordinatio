@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\PlaylistController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('playlists/{playlist}/tracks/{track}', 'removeTrack')->name('playlists.remove-track');
         Route::patch('playlists/{playlist}/tracks/{track}', 'reorderTrack')->name('playlists.reorder-track');
     });
+
+    Route::get('card', [CardController::class, 'index'])->name('card.index');
 });
 
 require __DIR__.'/settings.php';

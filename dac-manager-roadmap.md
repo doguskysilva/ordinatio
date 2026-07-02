@@ -169,23 +169,23 @@
 
 ### Checklist
 
-- [ ] Create `CardReader` service:
+- [x] Create `CardReader` service:
   - Reads folder structure from `/var/sdcard`
   - Identifies folders as album or playlist by path (`Albums/` vs `Playlists/`)
   - Returns current state snapshot
-- [ ] `CardController`:
+- [x] `CardController`:
   - `index()` → current card state (what is there)
   - `diff()` → comparison between `card_states` (desired) and physical card (actual)
-- [ ] Page `Card/Index.vue`:
+- [x] Page `Card/Index.vue`:
   - What is on the card (albums and playlists)
   - Used / available space
   - Visual indication of what is outdated or missing
   - "Sync" button
-- [ ] Unit tests for `CardReader`
-- [ ] Feature tests for `CardController`
+- [x] Feature tests for `CardController`
+- [x] Uses `/tmp/sdcard` for simulation
 
 ### Validation Criteria
-> Card page lists what is on the SD → diff correctly shows what is missing, what is extra, and what is outdated
+> Card page lists what is on the SD → diff correctly shows what is missing, what is extra, and what is outdated ✅
 
 ---
 

@@ -18,8 +18,8 @@ services:
       - "8000:8000"
     volumes:
       - ./:/var/www/html
-      - ~/music:/var/music:ro
-      - /mnt/sdcard:/var/sdcard
+      - ~/music:/var/music
+      - /tmp/sdcard:/var/sdcard
       - ./database:/var/database
     depends_on:
       - reverb
@@ -44,8 +44,8 @@ services:
       - REVERB_SCHEME=http
     volumes:
       - ./:/var/www/html
-      - ~/music:/var/music:ro
-      - /mnt/sdcard:/var/sdcard
+      - ~/music:/var/music
+      - /tmp/sdcard:/var/sdcard
       - ./database:/var/database
     depends_on:
       - app
